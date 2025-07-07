@@ -43,6 +43,6 @@ func ConnectDatabase() *gorm.DB {
 	if err != nil {
 		panic("Failed to connect to database: " + err.Error())
 	}
-	// jika berhasilm Kembalikan objek koneksi database ke pemanggil fungsi.
+	// jika berhasil Kembalikan objek koneksi database ke pemanggil fungsi.
 	return db
 }
