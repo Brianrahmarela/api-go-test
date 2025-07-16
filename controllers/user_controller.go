@@ -15,14 +15,29 @@ type UserController struct {
 	//Tujuannya: bisa panggil fungsi di service utk ambil user dari DB
 	UserService *services.UserService
 }
+// jika di js:
+// const UserController = {
+//     UserService: {
+//         DB: "koneksi"
+//     }
+// }
 
-//gambaran bentuk blueprint struct UserController
+// gambaran bentuk blueprint struct UserController
 // UserController {
 //     UserService --> (pointer ke struct UserService)
 // }
 
 // Buat controller + isi UserService-nya
 // Constructor hanya fungsi biasa yang mengembalikan struct
+// Input: menerima parameter db (koneksi ke database).
+// Output: mengembalikan pointer ke struct UserController.
+// Bentuknya di Go:
+// &UserController{
+//     UserService: &UserService{
+//         DB: &gorm.DB{ ... }  // koneksi aktif ke DB
+//     }
+// }
+//constructor ini nantinya akan dipakai, contoh: uc := NewUserController(db)
 func NewUserController(db *gorm.DB) *UserController {
 	// Bungkus ke dalam struct UserController, trs return alamatnya (&UserController) ke function
 	return &UserController{

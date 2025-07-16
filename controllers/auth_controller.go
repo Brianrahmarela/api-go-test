@@ -3,7 +3,8 @@ package controllers
 import (
 	"api-go-test/models"
 	"api-go-test/services" // Mengimpor service, yang menangani logika login/register.
-	"net/http"             //ackage standar go untuk kode HTTP (kode status seperti 200, 400, dll).
+	"fmt"
+	"net/http" // Package standar go untuk kode HTTP (kode status seperti 200, 400, dll).
 
 	"github.com/gin-gonic/gin" //Framework web bernama Gin. Memudahkan buat REST API.
 	"gorm.io/gorm"             //ORM untuk database. GORM mempermudah kerja dengan database seperti MySQL.
@@ -58,9 +59,15 @@ func (ac *AuthController) Register(c *gin.Context) {
 
 	// ac.AuthService.Register(...): Panggil fungsi Register dari service.
 	//jika berhasil simpan di variable token
-	token, err := ac.AuthService.Register(&user)
+	token, status, err := ac.AuthService.Register(&user)
+	fmt.Println("status", status)
+	fmt.Println("err AuthService.Register", err)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(status, gin.H{
+			"status": status,
+			"error":  err.Error(),
+		})
+		// c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	//http.StatusCreated: HTTP status 201 (berhasil dibuat).
