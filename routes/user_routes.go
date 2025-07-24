@@ -19,6 +19,7 @@ func SetupUserRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	// }
 	// NewUserController adalah semacam constructor/helper untuk mengisi field (seperti UserService) dalam UserController.
 	userController := controllers.NewUserController(db)
+	profileController := controllers.NewProfileController(db)
 
 	// router.Group("/"): Fungsi ini membuat grup route baru dengan prefix "/". Semua route di dalam grup ini akan memiliki awalan /.
 	// protected :=: Variabel protected menyimpan grup route tersebut. Grup route ini akan digunakan untuk route yang memerlukan proteksi atau middleware (seperti autentikasi).
@@ -32,6 +33,7 @@ func SetupUserRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	protected.Use(middleware.AuthMiddleware())
 	{
 		protected.GET("/users", userController.GetUsers)
+		protected.POST("/users/:id/profile", profileController.CreateProfile)
 	}
 
 	nonProtected.GET("/users/:id", userController.GetUserByID)
