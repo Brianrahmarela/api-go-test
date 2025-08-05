@@ -34,6 +34,7 @@ func SetupUserRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	{
 		protected.GET("/users", userController.GetUsers)
 		protected.POST("/users/:id/profile", profileController.CreateProfile)
+		protected.GET("/users/:id/profile", profileController.GetProfile)
 	}
 
 	nonProtected.GET("/users/:id", userController.GetUserByID)

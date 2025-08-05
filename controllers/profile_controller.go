@@ -65,3 +65,16 @@ func (pc *ProfileController) CreateProfile(c *gin.Context) {
 		Data:    profile,
 	})
 }
+
+func (pc *ProfileController) GetProfile(c *gin.Context) {
+	userID := c.Param("id")
+	var profile models.Profile
+
+	pc.DB.Where("user_id = ?", userID).First(&profile)
+
+	c.JSON(http.StatusOK, models.APIResponse{
+		Success: true,
+		Message: "Profile retrieved successfully",
+		Data:    profile,
+	})
+}
